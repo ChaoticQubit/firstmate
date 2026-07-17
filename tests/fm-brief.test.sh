@@ -308,6 +308,30 @@ test_scout_and_secondmate_load_decision_hold_policy() {
   pass "fm-brief.sh: investigation and visual-review completions load the shared decision policy"
 }
 
+test_ship_brief_carries_coding_discipline_and_graph() {
+  local home id brief
+  home="$TMP_ROOT/coding-discipline-home"
+  mkdir -p "$home/data"
+  id="brief-discipline-e1"
+  FM_HOME="$home" "$ROOT/bin/fm-brief.sh" "$id" some-proj >/dev/null 2>&1
+  brief="$home/data/$id/brief.md"
+  assert_present "$brief" "brief was not scaffolded"
+  assert_grep "# Coding discipline" "$brief" \
+    "ship brief lost the coding-discipline section"
+  # shellcheck disable=SC2016 # literal skill name with backticks must stay unexpanded
+  assert_grep 'load these skills and follow them: `ponytail`' "$brief" \
+    "ship brief did not reference the ponytail skill"
+  assert_grep "follow this summary instead" "$brief" \
+    "ship brief lost the portable fallback for runtimes without the skills"
+  assert_grep "# Keep the code graph current" "$brief" \
+    "ship brief lost the graphify graph-maintenance section"
+  assert_grep "graphify update" "$brief" \
+    "ship brief did not instruct the free graphify update"
+  assert_grep "graphify-out/graph.json" "$brief" \
+    "ship brief did not instruct committing the graph"
+  pass "fm-brief.sh: ship brief carries coding discipline and graph maintenance"
+}
+
 test_script_parses
 test_help_includes_entire_header
 test_ship_modes_generate_clean_briefs
@@ -321,3 +345,4 @@ test_herdr_lab_contract_applies_to_scouts_but_not_secondmates
 test_secondmate_no_projects_charter
 test_pause_verb_override_renders_all_brief_scaffolds
 test_scout_and_secondmate_load_decision_hold_policy
+test_ship_brief_carries_coding_discipline_and_graph

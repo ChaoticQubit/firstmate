@@ -366,12 +366,28 @@ $RULE1
    every lane/home, so restarting it kills other lanes' in-flight pipeline runs. On ANY no-mistakes
    daemon error, append \`blocked: {the daemon error}\` and stop; only firstmate manages the daemon.
 
+# Coding discipline
+Apply these engineering practices to all code you write or change in this task.
+If your runtime provides them, load these skills and follow them: \`ponytail\`, \`software-practices:trunk-based-development\`, \`software-practices:testing\`, and \`software-practices:engineering-principles\`.
+If those skills are not available in your runtime, follow this summary instead.
+- Reuse and delete before you add: check whether the change must exist at all, and whether the codebase, the standard library, or an existing dependency already does it, before writing new code.
+- Add no speculative abstraction, scaffolding, or configuration the task does not need.
+- Fix a bug at its root cause in the shared function every caller routes through, not with a patch on the one path the report named.
+- Keep the diff the smallest change that fully solves the task, committed in small steps on your single \`fm/$ID\` branch.
+- Cover non-trivial logic you add or change with one runnable test, and turn any bug you reproduce into its regression test.
+
 # Project memory
 If \`AGENTS.md\` or \`CLAUDE.md\` already exists, or if this task produced durable project-intrinsic knowledge, run \`$FM_ROOT/bin/fm-ensure-agents-md.sh .\` in the worktree.
 Record only project knowledge useful to almost every future session.
 For anything the codebase already shows, prefer a pointer to the authoritative file, command, or doc over copying the detail.
 If you touch a project \`AGENTS.md\` that lacks \`## Maintaining this file\`, add that short self-governance section from \`$FM_ROOT/bin/fm-ensure-agents-md.sh\` in the same pass.
 Keep it proportionate: skip \`AGENTS.md\` edits for trivial tasks that produced no durable project knowledge.
+
+# Keep the code graph current
+If \`graphify\` is installed, refresh the repository knowledge graph before you finish so it matches your change.
+Run \`graphify update .\` from the repository root; it re-extracts the code with no API cost and also builds the graph the first time.
+Commit the regenerated \`graphify-out/graph.json\` with your change, force-adding it if the repository ignores \`graphify-out/\`.
+Do not hand-edit files under \`graphify-out/\`, and do not commit the rest of \`graphify-out/\` unless the repository already tracks it.
 
 $DOD
 EOF
