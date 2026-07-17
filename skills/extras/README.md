@@ -21,7 +21,6 @@ To use one, copy its directory into your agent's skills directory (for Claude Co
 firstmate's crew briefs and project-management skill reference a few skills and plugins authored elsewhere; install them from their own sources.
 
 - `ponytail` and `software-practices` - coding-discipline plugins loaded by ship briefs.
-- `to-issues`, `to-prd`, and `triage` - Linear publishing skills by Mat Pocock, needed only to publish tickets to a real Linear board.
 
 ## License
 
