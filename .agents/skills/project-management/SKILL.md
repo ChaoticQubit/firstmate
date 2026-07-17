@@ -84,7 +84,7 @@ Load the `linear-method` skill and follow its principles: clarity in language, m
 This is the default posture for backlog items, project structure, and the task descriptions you write into briefs, and it needs no external service.
 
 Creating issues in an external tracker such as Linear is outward-facing and never automatic.
-Do it only when the captain explicitly asks to create or add tickets, then use the matching publishing skill: `to-issues`, `to-features`, `to-releases`, `to-linear-projects`, `to-prd`, or `triage`.
+Do it only when the captain explicitly asks to create or add tickets, then use the matching Linear publishing skill: `to-linear-projects`, `to-releases`, or `to-features`.
 These publish to the live Linear board and need the Linear connection active.
 If that connection is disconnected, tell the captain to reconnect it rather than failing silently.
 Never mirror routine backlog work into an external tracker on your own initiative.
