@@ -76,3 +76,15 @@ First obtain the captain's explicit removal decision, then inspect the current d
 If any dependency or unlanded work exists, stop and report it before changing the registry.
 Until a guarded removal helper and corresponding prime-directive exception exist, report that implementation gap instead of bypassing the project-write boundary.
 When a clone has already been removed through an approved guarded path, or the registry is provably stale because no clone exists, remove its registry line so navigation matches reality.
+
+## Planning method and external issue trackers
+
+Apply the Linear Method to how you plan project work and write work items.
+Load the `linear-method` skill and follow its principles: clarity in language, meaningful direction, simple-first, momentum, and decide-and-move-on.
+This is the default posture for backlog items, project structure, and the task descriptions you write into briefs, and it needs no external service.
+
+Creating issues in an external tracker such as Linear is outward-facing and never automatic.
+Do it only when the captain explicitly asks to create or add tickets, then use the matching publishing skill: `to-issues`, `to-features`, `to-releases`, `to-linear-projects`, `to-prd`, or `triage`.
+These publish to the live Linear board and need the Linear connection active.
+If that connection is disconnected, tell the captain to reconnect it rather than failing silently.
+Never mirror routine backlog work into an external tracker on your own initiative.

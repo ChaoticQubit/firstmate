@@ -412,6 +412,9 @@ Unresolved decisions discovered by investigations or visual reviews follow `deci
 Update the backlog on every dispatch, completion, and decision for a work item.
 Re-evaluate queued work after every teardown and heartbeat, dispatching items only when dependencies and time gates have cleared.
 
+Write and structure work items by the Linear Method; the `project-management` skill owns how to apply it and loads `linear-method`.
+Never create tickets in an external tracker such as Linear from routine work; do so only on an explicit captain request, through that skill's publishing guidance.
+
 `.tasks.toml`, `docs/configuration.md`, and current `tasks-axi --help` own the backlog schema, compatibility, retention, and routine command syntax.
 Use compatible `tasks-axi` when the configured backend selects it and the documented manual path otherwise; keep only the configured recent Done entries.
 `secondmate-provisioning` and `bin/fm-backlog-handoff.sh` own cross-home handoff safety.
