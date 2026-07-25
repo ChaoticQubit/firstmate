@@ -53,9 +53,9 @@ Each secondmate has a persistent isolated `FM_HOME`, including its own state, ba
 `bin/fm-send.sh` refuses to run unless `FM_HOME` is explicit, so a steer cannot silently resolve against another home.
 
 `data/` holds durable private fleet records, `state/` holds volatile runtime records and append-only status events, `config/` holds local operating choices, and `projects/` holds the clones firstmate reads but never writes.
-`.env`, `data/`, `state/`, `config/`, `projects/`, and `.no-mistakes/` are captain-private and gitignored, and section 1 lists the shared tracked material.
+Section 1 lists the shared tracked material and the captain-private gitignored directories.
 
-These facts apply on every turn and are stated only here:
+These facts apply on every turn:
 
 - A `state/<id>.status` line is a wake event, not current-state truth, and `bin/fm-crew-state.sh` owns current-state reconciliation.
 - Never hand-edit watcher, wake-queue, sub-supervisor, check-trust, or PR-poll records under `state/`, because their owning scripts are the only writers and editing one silently breaks supervision.
@@ -207,7 +207,8 @@ Send the same worker one exact decision naming the decision key, step, action, a
 Require the matching `resolved` event, forbid `--yes`, and require the worker to process every synchronous return until completion or a genuinely new escalation.
 Resume fleet supervision immediately after the decision lands.
 
-Judge validation by the branch-matched run step through `bin/fm-crew-state.sh` rather than shell liveness or the last status event: running, fixing, and CI states are still working, parked approval and fix-review states need the worker to follow the active gate help, passed and checks-passed are done, and failed or cancelled is failed.
+Judge validation by the branch-matched run step through `bin/fm-crew-state.sh`, not by shell liveness or the last status event.
+Running, fixing, or CI states remain working; parked approval or fix-review states require the worker to follow the active gate help; passed or checks-passed is done; failed or cancelled is failed.
 A worker hand-editing, committing, aborting, or restarting during an active validation run duplicates pipeline ownership; steer it back to the gate response flow.
 The worker reports the PR when CI first becomes green rather than waiting for merge monitoring to finish.
 
