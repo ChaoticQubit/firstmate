@@ -739,7 +739,15 @@ FM_BACKEND_HERDR_IDLE_RE=${FM_BACKEND_HERDR_IDLE_RE:-'^Type a message\.\.\.$'}
 # Known bare (unbordered) prompt glyphs a composer row may start with: ❯
 # (claude) and › (codex) only. Generic shell-style glyphs > $ % # are still
 # recognized after a bordered composer row has already been structurally found.
-FM_BACKEND_HERDR_BARE_PROMPT_RE=${FM_BACKEND_HERDR_BARE_PROMPT_RE:-'^[❯›]'}
+# Deliberately written as an alternation, NOT a bracket class: a bracket class
+# holding multibyte characters is locale dependent, and under the C/POSIX locale
+# (which is what the pipeline runs with) it degrades to the SET OF BYTES those
+# characters are made of - so every box-drawing glyph (╭ ╰ │ ─, all leading
+# 0xE2) would match and a decorative border row would be misread as an agent
+# composer row. Alternation compares whole byte sequences, so it behaves the
+# same under any locale. An operator overriding this must not reintroduce a
+# bracket class here.
+FM_BACKEND_HERDR_BARE_PROMPT_RE=${FM_BACKEND_HERDR_BARE_PROMPT_RE:-'^(❯|›)'}
 # Pi allows a multi-line composer between its horizontal separators. Bound the
 # structural candidate so two unrelated transcript rules with an arbitrarily
 # large region between them can never be promoted into a composer.
