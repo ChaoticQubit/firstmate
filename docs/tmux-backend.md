@@ -7,7 +7,7 @@ This is the setup guide; for the shared runtime-backend abstraction and selectio
 
 tmux is a terminal multiplexer.
 Firstmate gives each crewmate its own tmux window inside a session, so you can attach and watch a task work, or type into its window to intervene directly.
-Pick tmux unless you have a specific reason to try an experimental backend (herdr, zellij, Orca, or cmux) - it is the fully verified reference path for secondmate homes, while Orca and cmux are the backends that do not support secondmate spawns.
+Pick tmux unless you have a specific reason to try the experimental herdr backend - tmux is the fully verified reference path for secondmate homes.
 
 ## Prerequisites
 
@@ -19,7 +19,7 @@ Pick tmux unless you have a specific reason to try an experimental backend (herd
 tmux is the hard default: it needs no explicit selection.
 It is also what firstmate falls back to when nothing else is set - no local `config/backend` file, no `FM_BACKEND`, no explicit `--backend` flag firstmate passes internally when it spawns a task - and runtime auto-detection (see below) does not pick anything either.
 You can still select it explicitly by putting `tmux` in a local `config/backend` file - the durable way to pick it - or by exporting `FM_BACKEND=tmux` when you launch your harness for a one-off session; telling the first mate in chat to use tmux also works.
-This mainly matters as an opt-out of herdr or cmux runtime auto-detection (see [`docs/herdr-backend.md`](herdr-backend.md) and [`docs/cmux-backend.md`](cmux-backend.md)).
+This mainly matters as an opt-out of herdr runtime auto-detection (see [`docs/herdr-backend.md`](herdr-backend.md)).
 
 ## First run
 
@@ -113,5 +113,5 @@ Resolving this would need either a `pi`-specific env marker inspectable from out
 
 ## Limitations
 
-None specific to tmux for the reference path itself - it is the fully verified reference backend, while Orca and cmux are the backends without secondmate support.
+None specific to tmux for the reference path itself - it is the fully verified reference backend.
 The agent-liveness probe above has one known gap (`pi`'s generic `node` process name, see above).
