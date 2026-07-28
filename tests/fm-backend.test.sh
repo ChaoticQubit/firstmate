@@ -252,6 +252,30 @@ test_meta_get_and_backend_of_meta() {
   pass "fm_meta_get / fm_backend_of_meta: read key=value, default backend to tmux"
 }
 
+# fm_backend_target_of_meta must ALWAYS return 0, including for a record with no
+# window= field. Its callers test for an empty string and then emit their own
+# precise message; a non-zero return instead aborts them at the assignment under
+# `set -e`, which silently killed fm-send.sh's "no backend target recorded"
+# error and cut fm-teardown.sh's child-cleanup loop short mid-fleet.
+test_target_of_meta_never_aborts_an_errexit_caller() {
+  local meta=$TMP_ROOT/target-no-window.meta out
+  fm_write_meta "$meta" "harness=claude"
+  [ "$(fm_backend_target_of_meta "$meta")" = "" ] \
+    || fail "a record with no window= should yield an empty endpoint"
+
+  out=$(bash -c 'set -eu; . "$1/bin/fm-backend.sh"; t=$(fm_backend_target_of_meta "$2"); printf "reached:%s" "$t"' \
+    _ "$ROOT" "$meta") \
+    || fail "fm_backend_target_of_meta aborted its errexit caller at the assignment"
+  [ "$out" = "reached:" ] \
+    || fail "an errexit caller should reach its own empty-endpoint check, got '$out'"
+
+  fm_write_meta "$meta" "window=firstmate:fm-x1"
+  [ "$(fm_backend_target_of_meta "$meta")" = "firstmate:fm-x1" ] \
+    || fail "a recorded window= should still be returned unchanged"
+
+  pass "fm_backend_target_of_meta: reports an absent endpoint as empty without aborting an errexit caller"
+}
+
 test_resolve_selector_three_forms() {
   local state=$TMP_ROOT/resolve-state fakebin out
   mkdir -p "$state"
@@ -805,6 +829,7 @@ test_backend_name_explicit_beats_detection
 test_backend_validate_refuses_unknown
 test_backend_source_shell_portable
 test_meta_get_and_backend_of_meta
+test_target_of_meta_never_aborts_an_errexit_caller
 test_resolve_selector_three_forms
 test_backend_of_selector_matches_explicit_target_meta
 test_send_conformance_old_vs_new

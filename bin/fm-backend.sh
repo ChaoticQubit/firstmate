@@ -194,10 +194,18 @@ fm_backend_of_meta() {  # <meta-file>
   printf '%s' "${v:-tmux}"
 }
 
+# fm_backend_target_of_meta: the endpoint recorded in <meta-file>, or nothing
+# when the record carries no window= field.
+# ALWAYS returns 0. Every caller distinguishes "no endpoint" by testing for an
+# empty string and then emits its own precise message, so a non-zero return here
+# is not a signal - it is a trap. Under `set -e` the caller aborts at the
+# assignment itself, before that test can run: it killed fm-send.sh's "no backend
+# target recorded in <meta>" error and cut fm-teardown.sh's child-cleanup loop
+# short, silently leaving the remaining children unreaped.
 fm_backend_target_of_meta() {  # <meta-file>
-  local meta=$1 window
-  window=$(fm_meta_get "$meta" window)
-  [ -n "$window" ] && printf '%s' "$window"
+  local window
+  window=$(fm_meta_get "$1" window)
+  printf '%s' "$window"
 }
 
 fm_backend_meta_for_window() {  # <target> <state-dir>
