@@ -155,7 +155,7 @@ test_agent_alive_dispatcher_routes_and_falls_back() {
   out=$(bash -c '. "$0/bin/fm-backend.sh"; fm_backend_source herdr; fm_backend_herdr_pane_agent_state() { printf "live"; }; fm_backend_agent_alive herdr sess:p1' "$ROOT")
   [ "$out" = alive ] || fail "dispatcher should route herdr to fm_backend_herdr_agent_alive, got '$out'"
 
-  out=$(bash -c '. "$0/bin/fm-backend.sh"; fm_backend_agent_alive zellij sess:win' "$ROOT")
+  out=$(bash -c '. "$0/bin/fm-backend.sh"; fm_backend_agent_alive bogus sess:win' "$ROOT")
   [ "$out" = unknown ] || fail "dispatcher should report unknown for a backend with no verified classifier, got '$out'"
 
   pass "fm_backend_agent_alive: routes tmux/herdr correctly, unknown for an unverified backend"
